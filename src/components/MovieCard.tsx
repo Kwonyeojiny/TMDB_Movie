@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface MovieCardProps {
   title: string;
@@ -10,7 +11,7 @@ const baseUrl = 'https://image.tmdb.org/t/p/w500';
 
 const MovieCard: React.FC<MovieCardProps> = ({ title, poster_path, vote_average }) => {
   return (
-    <>
+    <Link to="/details">
       <div className=" rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl">
         <img
           src={`${baseUrl}${poster_path}`}
@@ -20,7 +21,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ title, poster_path, vote_average 
         <h3 className="text-lg text-left pt-4 ml-4">{title}</h3>
         <p className="text-base text-right text-gray-400 p-2 mr-2 ">평점: {vote_average}</p>
       </div>
-    </>
+    </Link>
   );
 };
 
