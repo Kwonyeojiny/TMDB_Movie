@@ -1,6 +1,6 @@
 import React from 'react';
 import movieDatas from '../data/movieListData.json';
-import MovieCard from './MovieCard';
+import MovieCard from '../components/MovieCard';
 
 const MovieList: React.FC = () => {
   return (
