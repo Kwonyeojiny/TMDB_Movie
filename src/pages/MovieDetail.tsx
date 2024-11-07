@@ -1,19 +1,32 @@
 import { useEffect, useState } from 'react';
-import movieDetailData from '../data/movieDetailData.json';
+import { useParams } from 'react-router-dom';
+import { fetchMovieDetail } from '../api/TmdbApi';
 
 const baseUrl = 'https://image.tmdb.org/t/p/w500';
 
 const MovieDetail = () => {
-  const [movieData, setMovieData] = useState<any>({});
+  const { id } = useParams<{ id: string }>();
+  const [movieData, setMovieData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  const { poster_path, title, vote_average, genres, overview } = movieData && movieData;
+  const { poster_path, title, vote_average, genres, overview } = movieData || {};
 
   useEffect(() => {
-    setMovieData(movieDetailData);
-  }, []);
+    const getMovieData = async () => {
+      if (id) {
+        setLoading(true);
+        const data = await fetchMovieDetail(id);
+        setMovieData(data);
+        setLoading(false);
+      }
+    };
+    getMovieData();
+  }, [id]);
+
+  if (loading) return <p>Loading...</p>;
 
   if (!movieData) {
-    return <div>Loading...</div>;
+    return <div>영화 정보를 불러올 수 없습니다</div>;
   }
 
   return (
@@ -28,7 +41,7 @@ const MovieDetail = () => {
             <p className="flex justify-center items-center text-xl mr-8">{vote_average}</p>
           </div>
           <ul className="m-4 flex gap-4 list-none justify-center font-bold">
-            {genres && genres.map((genre: any, index: number) => <li key={index}>{genre.name}</li>)}
+            {genres && genres.map((genre: any) => <li key={genre.id}>{genre.name}</li>)}
           </ul>
           <div className="mt-4 text-base">{overview}</div>
         </section>
