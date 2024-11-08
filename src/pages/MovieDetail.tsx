@@ -9,8 +9,7 @@ const MovieDetail = () => {
   const [movieData, setMovieData] = useState<any>([]);
   const [loading, setLoading] = useState(true);
 
-  // 구조분해할당
-  const { poster_path, title, vote_average, genres, overview } = movieData || {};
+  const { backdrop_path, poster_path, title, vote_average, genres, overview } = movieData || {};
 
   useEffect(() => {
     const getMovieData = async () => {
@@ -31,9 +30,17 @@ const MovieDetail = () => {
   }
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex justify-center items-center m-8 mt-24 w-[800px] rounded-lg overflow-hidden shadow-xl transition-all duration-300">
-        <article className="grid grid-cols-1 md:grid-cols-2  gap-8 md:gap-4">
+    <div
+      className="flex justify-center items-center min-h-screen bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${baseUrl}${backdrop_path})`,
+      }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black opacity-60" />
+
+      <div className="relative flex justify-center items-center m-8 mt-24 w-[800px] rounded-lg overflow-hidden shadow-xl transition-all duration-300 bg-white bg-opacity-80">
+        <article className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4">
           <div className="flex justify-center items-center">
             <img
               src={`${baseUrl}${poster_path}`}
