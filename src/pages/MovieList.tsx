@@ -22,7 +22,7 @@ const MovieList: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-wrap gap-4 justify-center items-center">
+    <div className="flex flex-wrap gap-4 justify-center items-center mt-24">
       {movies.map(movie => (
         <Link to={`/details/${movie.id}`} key={movie.id}>
           <MovieCard
