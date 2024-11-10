@@ -1,9 +1,14 @@
+// MovieList.tsx - 검색 결과를 렌더링하는 컴포넌트
 import React, { useEffect, useState } from 'react';
 import MovieCard from '../components/MovieCard';
 import { fetchPopularMovies } from '../api/TmdbApi';
 import { Link } from 'react-router-dom';
 
-const MovieList: React.FC = () => {
+interface MovieListProps {
+  searchResults: any[];
+}
+
+const MovieList: React.FC<MovieListProps> = ({ searchResults }) => {
   const [movies, setMovies] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -14,8 +19,15 @@ const MovieList: React.FC = () => {
       setMovies(data);
       setLoading(false);
     };
-    fetchData();
-  }, []);
+
+    // 검색 결과가 있을 경우 해당 결과 표시, 없으면 인기 영화 표시
+    if (searchResults.length > 0) {
+      setMovies(searchResults);
+      setLoading(false);
+    } else {
+      fetchData();
+    }
+  }, [searchResults]);
 
   if (loading) {
     return <div>Loading...</div>;
